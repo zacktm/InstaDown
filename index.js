@@ -74,6 +74,7 @@ app.get("/down", (req, res) => {
         shortcode: link,
       });
       console.log(media.__typename);
+
       var url = "";
       if (media.__typename != "GraphSidecar") {
         res.json({
@@ -102,9 +103,42 @@ app.get("/down", (req, res) => {
 });
 
 function parseDownloadLink(media) {
+  var type = "";
   if (media.__typename == "GraphImage") {
-    return media.display_url;
+    type = "jpg";
+    download(
+      media.display_url,
+      "down/" + media.shortcode + "." + type,
+      function () {
+        console.log("done");
+      }
+    );
+    return "down/" + media.shortcode + "." + type;
   } else if (media.__typename == "GraphVideo") {
-    return media.video_url;
+    type = "mp4";
+    download(
+      media.video_url,
+      "down/" + media.shortcode + "." + type,
+      function () {
+        console.log("done");
+      }
+    );
+    return "down/" + media.shortcode + "." + type;
   }
 }
+
+var fs = require("fs"),
+  request = require("request");
+
+var download = function (uri, filename, callback) {
+  request.head(uri, function (err, res, body) {
+    console.log("content-type:", res.headers["content-type"]);
+    console.log("content-length:", res.headers["content-length"]);
+
+    request(uri).pipe(fs.createWriteStream(filename)).on("close", callback);
+    setTimeout(function () {
+      fs.unlinkSync(filename);
+      console.log("File Deleted");
+    }, 600000);
+  });
+};
