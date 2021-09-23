@@ -1,4 +1,5 @@
-let app = require("express")();
+const express = require("express");
+const app = express();
 app.all("/*", function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -6,6 +7,7 @@ app.all("/*", function (req, res, next) {
 });
 
 let server = require("http").createServer(app);
+app.use(express.static("down"));
 
 var port = process.env.PORT || 3001;
 
@@ -113,7 +115,7 @@ function parseDownloadLink(media) {
         console.log("done");
       }
     );
-    return "down/" + media.shortcode + "." + type;
+    return media.shortcode + "." + type;
   } else if (media.__typename == "GraphVideo") {
     type = "mp4";
     download(
@@ -123,7 +125,7 @@ function parseDownloadLink(media) {
         console.log("done");
       }
     );
-    return "down/" + media.shortcode + "." + type;
+    return media.shortcode + "." + type;
   }
 }
 
