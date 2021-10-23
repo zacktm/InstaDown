@@ -109,16 +109,18 @@ async function newStory(username, client, cloneUsername, id) {
   console.log(
     username + "- publish story from:" + cloneUsername + ", id= " + id
   );
-  var cloneAccount = await client.getUserByUsername({
+  var cloneAccount = await client.getPhotosByUsername({
     username: cloneUsername,
+    first: 50,
   });
 
   // // Upload Photo to feed or story, just configure 'post' to 'feed' or 'story'
-  photo = cloneAccount.edge_owner_to_timeline_media.edges[id].node.display_url;
+  photo =
+    cloneAccount.user.edge_owner_to_timeline_media.edges[id].node.display_url;
   var upMedia = await client.uploadPhoto({
     photo: photo,
     caption:
-      cloneAccount.edge_owner_to_timeline_media.edges[id].node
+      cloneAccount.user.edge_owner_to_timeline_media.edges[id].node
         .edge_media_to_caption.edges[0].node.text,
     post: "story",
   });
@@ -154,16 +156,19 @@ async function newPost(username, client, cloneUsername, id) {
   console.log(
     username + "- publish post from:" + cloneUsername + ", id= " + id
   );
-  var cloneAccount = await client.getUserByUsername({
+  var cloneAccount = await client.getPhotosByUsername({
     username: cloneUsername,
+    first: 50,
   });
+  //   console.log(cloneAccount.user.edge_owner_to_timeline_media.edges);
 
   // // Upload Photo to feed or story, just configure 'post' to 'feed' or 'story'
-  photo = cloneAccount.edge_owner_to_timeline_media.edges[id].node.display_url;
+  photo =
+    cloneAccount.user.edge_owner_to_timeline_media.edges[id].node.display_url;
   var upMedia = await client.uploadPhoto({
     photo: photo,
     caption:
-      cloneAccount.edge_owner_to_timeline_media.edges[id].node
+      cloneAccount.user.edge_owner_to_timeline_media.edges[id].node
         .edge_media_to_caption.edges[0].node.text,
     post: "feed",
   });

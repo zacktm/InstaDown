@@ -21,11 +21,11 @@ app.get("/", (req, res) => {
 
 const startAccount = require("./modules/account");
 
-startAccount(
-  "rania_khalidz",
-  "123456x",
-  "http://daudyqrb:45aepqafokdz@154.85.103.78:6369"
-);
+// startAccount(
+//   "rania_khalidz",
+//   "123456x",
+//   "http://daudyqrb:45aepqafokdz@154.85.103.78:6369"
+// );
 
 startAccount(
   "sarazoss",
@@ -33,8 +33,8 @@ startAccount(
   "http://daudyqrb:45aepqafokdz@144.168.241.34:8628"
 );
 
-startAccount(
-  "mirnasaideshta",
-  "123456x",
-  "http://daudyqrb:45aepqafokdz@185.164.57.80:7583"
-);
+// startAccount(
+//   "mirnasaideshta",
+//   "123456x",
+//   "http://daudyqrb:45aepqafokdz@185.164.57.80:7583"
+// );
